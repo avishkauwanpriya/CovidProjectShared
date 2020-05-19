@@ -6,6 +6,7 @@ public class UserTM {
     private String userName;
     private String name;
     private String role;
+    private Button remove;
 
     public String getUserName() {
         return userName;
@@ -39,7 +40,7 @@ public class UserTM {
         this.remove = remove;
     }
 
-    private Button remove;
+
 
     @Override
     public String toString() {

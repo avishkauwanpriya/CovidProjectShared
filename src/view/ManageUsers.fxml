@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -24,9 +25,8 @@
       <JFXTextField fx:id="txtContactNumber" layoutX="33.0" layoutY="215.0" prefHeight="25.0" prefWidth="372.0" promptText="Enter The Contact Number" />
       <JFXTextField fx:id="txtEMail" layoutX="33.0" layoutY="255.0" prefHeight="25.0" prefWidth="372.0" promptText="Enter The E-Mail" />
       <JFXTextField fx:id="txtUserName" layoutX="33.0" layoutY="302.0" prefHeight="25.0" prefWidth="372.0" promptText="Enter The Username" />
-      <JFXTextField fx:id="txtPassword" layoutX="33.0" layoutY="341.0" prefHeight="25.0" prefWidth="372.0" promptText="Enter The Password" />
       <JFXComboBox fx:id="cmbUserRole" layoutX="33.0" layoutY="382.0" prefHeight="25.0" prefWidth="372.0" promptText="Select User Role" />
-      <JFXButton fx:id="btnSave" layoutX="256.0" layoutY="118.0" onAction="#btnSave_OnAction" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #200BF2;" text="Save" textFill="WHITE">
+      <JFXButton fx:id="btnSave" layoutX="662.0" layoutY="64.0" onAction="#btnSave_OnAction" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #200BF2;" text="Save" textFill="WHITE">
          <font>
             <Font name="Britannic Bold" size="19.0" />
          </font>
@@ -36,7 +36,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="27.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnNewUser" layoutX="33.0" layoutY="118.0" onAction="#btnNewUser_OnAction" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #156F05;" text="New User" textFill="WHITE">
+      <JFXButton fx:id="btnNewUser" layoutX="433.0" layoutY="64.0" onAction="#btnNewUser_OnAction" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #156F05;" text="New User" textFill="WHITE">
          <font>
             <Font name="Britannic Bold" size="19.0" />
          </font>
@@ -49,5 +49,23 @@
             <TableColumn prefWidth="117.0" text="Remove" />
         </columns>
       </TableView>
+      <JFXComboBox fx:id="cmbHospital" layoutX="20.0" layoutY="69.0" prefHeight="25.0" prefWidth="120.0" />
+      <JFXComboBox fx:id="cmbQrCenter" layoutX="177.0" layoutY="69.0" prefHeight="25.0" prefWidth="120.0" />
+      <Label layoutX="50.0" layoutY="43.0" text="Hospitals" textFill="#0004ff">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="169.0" layoutY="43.0" text="Quarantine Centers" textFill="#0004ff">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <JFXPasswordField fx:id="txtPassword" layoutX="33.0" layoutY="348.0" prefHeight="25.0" prefWidth="372.0" promptText="Enter Password" />
+      <!--<ImageView fx:id="imgHide_Password" fitHeight="40.0" fitWidth="45.0" layoutX="354.0" layoutY="331.0" onMouseClicked="#imgHidePassword_OnClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+             <Image url="@/images/hide.png" />
+         </image>
+      </ImageView>-->
     </children>
 </AnchorPane>

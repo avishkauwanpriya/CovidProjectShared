@@ -77,7 +77,7 @@ public class GlobalCOVIDController {
 
 
 
-
+            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,6 +160,7 @@ public class GlobalCOVIDController {
 
                     }
                 }
+              connection1.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -186,7 +187,7 @@ public class GlobalCOVIDController {
                     preparedStatement.executeUpdate();
 
 
-
+                        connection2.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
