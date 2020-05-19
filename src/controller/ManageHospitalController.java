@@ -54,6 +54,8 @@ public class ManageHospitalController {
         lstHospital.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                btnSave.setDisable(false);
+                btnSave.setText("Update");
                 btnDelete.setDisable(false);
                 txtId.setDisable(false);
                 txtHospitalName.setDisable(false);
@@ -167,51 +169,75 @@ public class ManageHospitalController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        new Alert(Alert.AlertType.INFORMATION,"Deleted Successfully",ButtonType.OK).show();
     }
 
     public void btnSave_OnAction(ActionEvent actionEvent) {
-        if(checkForEmptyFields()==false){
-            new Alert(Alert.AlertType.ERROR,"Empty Fields", ButtonType.OK).show();
-            return;
+        if(btnSave.getText().equals("Save")) {
+            if (checkForEmptyFields() == false) {
+                new Alert(Alert.AlertType.ERROR, "Empty Fields", ButtonType.OK).show();
+                return;
+
+            } else if (validateCapacity() == false) {
+                new Alert(Alert.AlertType.ERROR, "Invalid Capacity", ButtonType.OK).show();
+                return;
+
+            } else if (validateContactNumbers(txtDirectorContactNo.getText()) == false || validateContactNumbers(txtHospitalContactNo1.getText()) == false || validateContactNumbers(txtHospitalContactNo2.getText()) == false) {
+                new Alert(Alert.AlertType.ERROR, "Invalid ContactNo", ButtonType.OK).show();
+                return;
+
+
+            }
+
+
+            try {
+
+                Connection connection = DBConnection.getDBConnection().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hospital VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                preparedStatement.setObject(1, txtId.getText());
+                preparedStatement.setObject(2, txtHospitalName.getText());
+                preparedStatement.setObject(3, txtCity.getText());
+                preparedStatement.setObject(4, cmbDistrict.getSelectionModel().getSelectedItem());
+                preparedStatement.setObject(5, txtCapacity.getText());
+                preparedStatement.setObject(6, txtDirector.getText());
+                preparedStatement.setObject(7, txtDirectorContactNo.getText());
+                preparedStatement.setObject(8, txtHospitalContactNo1.getText());
+                preparedStatement.setObject(9, txtHospitalContactNo2.getText());
+                preparedStatement.setObject(10, txtHospitalFaxNo.getText());
+                preparedStatement.setObject(11, txtHospitalEMail.getText());
+                preparedStatement.executeUpdate();
+
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            btnSave.setDisable(true);
+        }
+        else{
+            try {
+                Connection connection = DBConnection.getDBConnection().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE hospital SET hospitalName=(?),city=(?),district=(?),capacity=(?),director=(?),directorContactNo=(?),hospitalContactNo1=(?),hospitalContactNo2=(?),hospitalFaxNo=(?),hospitalEMail=(?) WHERE hospitalId=(?)");
+                preparedStatement.setObject(1,txtHospitalName.getText());
+                preparedStatement.setObject(2,txtCity.getText());
+                preparedStatement.setObject(3,cmbDistrict.getSelectionModel().getSelectedItem());
+                preparedStatement.setObject(4,txtCapacity.getText());
+                preparedStatement.setObject(5,txtDirector.getText());
+                preparedStatement.setObject(6,txtDirectorContactNo.getText());
+                preparedStatement.setObject(7,txtHospitalContactNo1.getText());
+                preparedStatement.setObject(8,txtHospitalContactNo2.getText());
+                preparedStatement.setObject(9,txtHospitalFaxNo.getText());
+                preparedStatement.setObject(10,txtHospitalEMail.getText());
+                preparedStatement.setObject(11,txtId.getText());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
         }
-        else if(validateCapacity()==false){
-            new Alert(Alert.AlertType.ERROR,"Invalid Capacity", ButtonType.OK).show();
-            return;
-
-        }
-        else if(validateContactNumbers(txtDirectorContactNo.getText())==false||validateContactNumbers(txtHospitalContactNo1.getText())==false||validateContactNumbers(txtHospitalContactNo2.getText())==false){
-            new Alert(Alert.AlertType.ERROR,"Invalid ContactNo", ButtonType.OK).show();
-            return;
-
-
-        }
-
-
-        try {
-            
-            Connection connection= DBConnection.getDBConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO hospital VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setObject(1,txtId.getText()); 
-            preparedStatement.setObject(2,txtHospitalName.getText()); 
-            preparedStatement.setObject(3,txtCity.getText());
-            preparedStatement.setObject(4,cmbDistrict.getSelectionModel().getSelectedItem());
-            preparedStatement.setObject(5,txtCapacity.getText());
-            preparedStatement.setObject(6,txtDirector.getText());
-            preparedStatement.setObject(7,txtDirectorContactNo.getText());
-            preparedStatement.setObject(8,txtHospitalContactNo1.getText());
-            preparedStatement.setObject(9,txtHospitalContactNo2.getText());
-            preparedStatement.setObject(10,txtHospitalFaxNo.getText());
-            preparedStatement.setObject(11,txtHospitalEMail.getText());
-            preparedStatement.executeUpdate();
-
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        btnSave.setDisable(true);
 
     }
 

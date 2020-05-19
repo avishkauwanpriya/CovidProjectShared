@@ -52,6 +52,11 @@ public class ManageQuarantineCentersController {
 
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+
+
+                btnSave.setDisable(false);
+                btnSave.setText("Update");
                 btnDelete.setDisable(false);
                 txtId.setDisable(false);
                 txtQuarantineCentreName.setDisable(false);
@@ -62,6 +67,8 @@ public class ManageQuarantineCentersController {
                 txtCentreContactNo2.setDisable(false);
                 txtHead.setDisable(false);
                 cmbDistrict.setDisable(false);
+
+
                 try {
 
                     Connection connection = DBConnection.getDBConnection().getConnection();
@@ -137,63 +144,92 @@ public class ManageQuarantineCentersController {
     }
 
     public void btnDelete_OnAction(ActionEvent actionEvent) {
-    }
-
-    public void btnSave_OnAction(ActionEvent actionEvent) {
-        if(checkForEmptyFields()==false){
-            new Alert(Alert.AlertType.ERROR,"Empty Fields", ButtonType.OK).show();
-            return;
-
-        }
-        else if(validateCapacity()==false){
-            new Alert(Alert.AlertType.ERROR,"Invalid Capacity", ButtonType.OK).show();
-            return;
-
-        }
-        else if(validateContactNumbers(txtHeadContactNo.getText())==false||validateContactNumbers(txtCentreContactNo1.getText())==false||validateContactNumbers(txtCentreContactNo2.getText())==false){
-            new Alert(Alert.AlertType.ERROR,"Invalid ContactNo", ButtonType.OK).show();
-            return;
-
-
-        }
-
-
-
-
-
-
-
-
         try {
-
-
-            Connection connection= DBConnection.getDBConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quarantinecenter VALUES (?,?,?,?,?,?,?,?,?)");
+            Connection connection = DBConnection.getDBConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM quarantinecenter WHERE Id=(?)");
             preparedStatement.setObject(1,txtId.getText());
-            preparedStatement.setObject(2,txtQuarantineCentreName.getText());
-            preparedStatement.setObject(3,txtCity.getText());
-            preparedStatement.setObject(4,cmbDistrict.getSelectionModel().getSelectedItem());
-            preparedStatement.setObject(5,txtHead.getText());
-            preparedStatement.setObject(6,txtHeadContactNo.getText());
-            preparedStatement.setObject(7,txtCentreContactNo1.getText());
-            preparedStatement.setObject(8,txtCentreContactNo2.getText());
-            preparedStatement.setObject(9,txtCapacity.getText());
-
-
-
-
             preparedStatement.executeUpdate();
-
             connection.close();
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        btnSave.setDisable(true);
+        new Alert(Alert.AlertType.INFORMATION,"Deleted Successfully",ButtonType.OK).show();
+    }
+
+    public void btnSave_OnAction(ActionEvent actionEvent) {
+        if(btnSave.getText().equals("Save")) {
+            if (checkForEmptyFields() == false) {
+                new Alert(Alert.AlertType.ERROR, "Empty Fields", ButtonType.OK).show();
+                return;
+
+            } else if (validateCapacity() == false) {
+                new Alert(Alert.AlertType.ERROR, "Invalid Capacity", ButtonType.OK).show();
+                return;
+
+            } else if (validateContactNumbers(txtHeadContactNo.getText()) == false || validateContactNumbers(txtCentreContactNo1.getText()) == false || validateContactNumbers(txtCentreContactNo2.getText()) == false) {
+                new Alert(Alert.AlertType.ERROR, "Invalid ContactNo", ButtonType.OK).show();
+                return;
+
+
+            }
+
+
+            try {
+
+
+                Connection connection = DBConnection.getDBConnection().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO quarantinecenter VALUES (?,?,?,?,?,?,?,?,?)");
+                preparedStatement.setObject(1, txtId.getText());
+                preparedStatement.setObject(2, txtQuarantineCentreName.getText());
+                preparedStatement.setObject(3, txtCity.getText());
+                preparedStatement.setObject(4, cmbDistrict.getSelectionModel().getSelectedItem());
+                preparedStatement.setObject(5, txtHead.getText());
+                preparedStatement.setObject(6, txtHeadContactNo.getText());
+                preparedStatement.setObject(7, txtCentreContactNo1.getText());
+                preparedStatement.setObject(8, txtCentreContactNo2.getText());
+                preparedStatement.setObject(9, txtCapacity.getText());
+
+
+                preparedStatement.executeUpdate();
+
+                connection.close();
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            btnSave.setDisable(true);
+        }
+        else{
+
+
+            try {
+                Connection connection = DBConnection.getDBConnection().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE quarantinecenter SET centerName=(?),city=(?),district=(?),head=(?),headContactNo=(?),centerContactNo1=(?),centerContactNo2=(?),capacity=(?) WHERE Id=(?)");
+                preparedStatement.setObject(1,txtQuarantineCentreName.getText());
+                preparedStatement.setObject(2,txtCity.getText());
+                preparedStatement.setObject(3,cmbDistrict.getSelectionModel().getSelectedItem());
+                preparedStatement.setObject(4,txtHead.getText());
+                preparedStatement.setObject(5,txtHeadContactNo.getText());
+                preparedStatement.setObject(6,txtCentreContactNo1.getText());
+                preparedStatement.setObject(7,txtCentreContactNo2.getText());
+                preparedStatement.setObject(8,txtCapacity.getText());
+                preparedStatement.setObject(9,txtId.getText());
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            new Alert(Alert.AlertType.INFORMATION,"Updated Successfully",ButtonType.OK).show();
+
+        }
 
 
 

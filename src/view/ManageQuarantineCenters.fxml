@@ -34,7 +34,7 @@
                 <Font name="Britannic Bold" size="17.0" />
             </font>
         </JFXButton>
-      <JFXTextField fx:id="txtId" layoutX="36.0" layoutY="59.0" prefHeight="25.0" prefWidth="216.0" promptText="Id" />
+      <JFXTextField fx:id="txtId" editable="false" layoutX="36.0" layoutY="59.0" prefHeight="25.0" prefWidth="216.0" promptText="Id" />
       <JFXTextField fx:id="txtCity" layoutX="36.0" layoutY="105.0" prefHeight="25.0" prefWidth="216.0" promptText="City" />
       <JFXTextField fx:id="txtHeadContactNo" layoutX="36.0" layoutY="150.0" prefHeight="25.0" prefWidth="216.0" promptText="Head Contact No" />
       <JFXTextField fx:id="txtCentreContactNo2" layoutX="36.0" layoutY="200.0" prefHeight="25.0" prefWidth="216.0" promptText="Centre Contact No2" />
