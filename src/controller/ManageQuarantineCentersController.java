@@ -47,6 +47,48 @@ public class ManageQuarantineCentersController {
 
     public void initialize(){
         setInitialize();
+        lstQuarantineCenter.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                btnDelete.setDisable(false);
+                txtId.setDisable(false);
+                txtQuarantineCentreName.setDisable(false);
+                txtCity.setDisable(false);
+                txtHeadContactNo.setDisable(false);
+                txtCapacity.setDisable(false);
+                txtCentreContactNo1.setDisable(false);
+                txtCentreContactNo2.setDisable(false);
+                txtHead.setDisable(false);
+                cmbDistrict.setDisable(false);
+                try {
+
+                    Connection connection = DBConnection.getDBConnection().getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM quarantinecenter WHERE centerName=(?)");
+                    preparedStatement.setObject(1,newValue);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()){
+                        txtId.setText(resultSet.getString(1));
+                        txtQuarantineCentreName.setText(resultSet.getString(2));
+                        txtCity.setText(resultSet.getString(3));
+                        cmbDistrict.getSelectionModel().select(resultSet.getString(4));
+                        txtHead.setText(resultSet.getString(5));
+                        txtHeadContactNo.setText(resultSet.getString(6));
+                        txtCentreContactNo1.setText(resultSet.getString(7));
+                        txtCentreContactNo2.setText(resultSet.getString(8));
+                        txtCapacity.setText(resultSet.getString(9));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
         ArrayList<String> quarantineCenters=new ArrayList<>();
         try {
             Connection connection = DBConnection.getDBConnection().getConnection();
@@ -176,6 +218,7 @@ public class ManageQuarantineCentersController {
         txtHead.setDisable(true);
         txtHeadContactNo.setDisable(true);
         cmbDistrict.setDisable(true);
+        btnDelete.setDisable(true);
 
 
 

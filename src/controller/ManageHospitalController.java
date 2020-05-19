@@ -51,6 +51,51 @@ public class ManageHospitalController {
 
     public  void initialize(){
         setHospitalInitialize();
+        lstHospital.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                btnDelete.setDisable(false);
+                txtId.setDisable(false);
+                txtHospitalName.setDisable(false);
+                txtCity.setDisable(false);
+                txtHospitalContactNo1.setDisable(false);
+                txtHospitalContactNo2.setDisable(false);
+                txtHospitalEMail.setDisable(false);
+                txtHospitalFaxNo.setDisable(false);
+                txtCapacity.setDisable(false);
+                txtDirector.setDisable(false);
+                txtDirectorContactNo.setDisable(false);
+                cmbDistrict.setDisable(false);
+
+                try {
+                    Connection connection = DBConnection.getDBConnection().getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM hospital WHERE hospitalName=(?)");
+                    preparedStatement.setObject(1,newValue);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()){
+                        txtId.setText(resultSet.getString(1));
+                        txtHospitalName.setText(resultSet.getString(2));
+                        txtCity.setText(resultSet.getString(3));
+                        cmbDistrict.getSelectionModel().select(resultSet.getString(4));
+                        txtCapacity.setText(resultSet.getString(5));
+                        txtDirector.setText(resultSet.getString(6));
+                        txtDirectorContactNo.setText(resultSet.getString(7));
+                        txtHospitalContactNo1.setText(resultSet.getString(8));
+                        txtHospitalContactNo2.setText(resultSet.getString(9));
+                        txtHospitalFaxNo.setText(resultSet.getString(10));
+                        txtHospitalEMail.setText(resultSet.getString(11));
+
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
 
 
         ArrayList<String> hospitalNames=new ArrayList<>();
@@ -207,7 +252,7 @@ public class ManageHospitalController {
     private void setHospitalInitialize(){
         ObservableList list= FXCollections.observableArrayList("Colombo","Ampara","Anuradhapura","Badulla","Batticaloa","Colombo","Galle","Gampaha","Hambantota","Jaffna","Kalutara","Kandy","Kegalle","Kilinochchi","Kurunegala","Mannar","Matale","Matara","Moneragala","Mullaitivu","Nuwara Eliya","Polonnaruwa","Puttalam","Ratnapura","Trincomalee","Vavuniya");
         cmbDistrict.setItems(list);
-
+        btnDelete.setDisable(true);
         txtId.setDisable(true);
         txtHospitalName.setDisable(true);
         txtCity.setDisable(true);
