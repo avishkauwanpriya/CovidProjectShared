@@ -188,6 +188,10 @@ public class ManageHospitalController {
 
 
             }
+            else  if(validateEmail(txtHospitalEMail.getText())==false){
+                new Alert(Alert.AlertType.ERROR,"Invalid Email",ButtonType.OK).show();
+                return;
+            }
 
 
             try {
@@ -213,6 +217,8 @@ public class ManageHospitalController {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            new Alert(Alert.AlertType.INFORMATION,"Added Successfully",ButtonType.OK).show();
+
             btnSave.setDisable(true);
         }
         else{
@@ -397,6 +403,14 @@ public class ManageHospitalController {
         }
 
         return flag;
+    }
+
+    private boolean validateEmail(String email){
+        String mailFormat="^[A-Za-z0-9+_.-]+@(.+)$";
+        String mail=email;
+        boolean matches=mail.matches(mailFormat);
+
+        return matches;
     }
 
 }

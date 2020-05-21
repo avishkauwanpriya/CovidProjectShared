@@ -54,11 +54,10 @@ public class ManageUsersController {
 
     public void initialize() {
 
-
-
-
         setInitialize();
+       
     }
+
 
     public void btnHome_OnClick(MouseEvent mouseEvent) {
         try {
@@ -87,6 +86,11 @@ public class ManageUsersController {
             return;
 
         }
+        else  if(validateEmail(txtEMail.getText())==false){
+            new Alert(Alert.AlertType.ERROR,"Invalid Email",ButtonType.OK).show();
+            return;
+        }
+
 
         try {
             Connection connection = DBConnection.getDBConnection().getConnection();
@@ -340,6 +344,13 @@ public class ManageUsersController {
             e.printStackTrace();
         }
         return flag;
+    }
+    private boolean validateEmail(String email){
+        String mailFormat="^[A-Za-z0-9+_.-]+@(.+)$";
+        String mail=email;
+        boolean matches=mail.matches(mailFormat);
+
+        return matches;
     }
 
 
